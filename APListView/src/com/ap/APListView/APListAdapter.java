@@ -8,11 +8,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
-import org.w3c.dom.Text;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
 /**
  * Created by andrejp on 16.5.2015.
@@ -24,10 +25,12 @@ public class APListAdapter<E> extends BaseAdapter implements SectionIndexer {
 
     private Context context;
     private List<APItem> itemList;
+    private Map<Integer, View> headerMap;
 
     public APListAdapter(Context context, List<E> objectList) {
         this.context = context;
         initializeHeaderedList(objectList);
+        headerMap = new HashMap<>();
     }
 
     private void initializeHeaderedList(List<E> objectList) {
@@ -75,11 +78,15 @@ public class APListAdapter<E> extends BaseAdapter implements SectionIndexer {
             textView.setTextColor(context.getResources().getColor(android.R.color.black));
             textView.setTextSize(20);
             textView.setTypeface(null, Typeface.BOLD);
+            int section = getSectionForPosition(position);
+            convertView.setTag(section);
+            headerMap.put(section, convertView);
         } else {
             textView.setBackgroundResource(android.R.color.black);
             textView.setTextColor(context.getResources().getColor(android.R.color.white));
             textView.setTextSize(14);
             textView.setTypeface(null, Typeface.NORMAL);
+            convertView.setTag(-1);
         }
         return convertView;
     }
@@ -106,6 +113,15 @@ public class APListAdapter<E> extends BaseAdapter implements SectionIndexer {
     @Override
     public int getSectionForPosition(int position) {
         return getItem(position).toString().charAt(0) - CHAR_A;
+    }
+
+    public View getHeaderForSection(int section) {
+        View headerForSection = headerMap.get(section);
+        if (headerForSection.getTag() == (Integer)section) {
+            return headerForSection;
+        } else {
+            return null;
+        }
     }
 
     private abstract class APItem {
