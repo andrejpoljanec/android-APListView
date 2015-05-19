@@ -4,6 +4,8 @@ The intention for this project is to collect useful features for list views. Cur
 - Index scroller
 - Sticky headers
 
+Just started working on drag and drop functionality.
+
 ## Preview
 
 Index Scroller
