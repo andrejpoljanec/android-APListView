@@ -1,9 +1,6 @@
 package com.ap.APListView;
 
-import android.animation.Animator;
-import android.animation.ValueAnimator;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.util.AttributeSet;
@@ -23,17 +20,6 @@ public class APListView extends ListView {
     private APListHeaderView headerView = null;
     private APListAdapter listAdapter = null;
     private Point windowSize;
-
-    private float dragX;
-    private float dragY;
-    private float dragXOffset;
-    private float dragYOffset;
-    private float originalX;
-    private float originalY;
-    private float dropX;
-    private float dropY;
-    private Bitmap dragBitmap;
-    private ValueAnimator dragAnimator;
 
     public APListView(Context context) {
         super(context);
@@ -68,68 +54,16 @@ public class APListView extends ListView {
     public void draw(Canvas canvas) {
         super.draw(canvas);
         headerView.draw(canvas);
-        if (dragBitmap != null) {
-            canvas.drawBitmap(dragBitmap, dragX, dragY, null);
-        }
         listScroller.draw(canvas);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (dragBitmap != null && ev.getAction() == MotionEvent.ACTION_MOVE) {
-            dragX = ev.getX() - dragXOffset;
-            dragY = ev.getY() - dragYOffset;
-            invalidate();
-            return true;
-        } else if (dragBitmap != null && ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_CANCEL) {
-            dropX = ev.getX() - dragXOffset;
-            dropY = ev.getY() - dragYOffset;
-            dragAnimator = ValueAnimator.ofFloat(0, 1);
-            dragAnimator.setDuration(200);
-            dragAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    float value = (float) animation.getAnimatedValue();
-                    dragX = dropX + value * (originalX - dropX);
-                    dragY = dropY + value * (originalY - dropY);
-                    invalidate();
-                }
-            });
-            dragAnimator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    dragBitmap = null;
-                }
-                @Override
-                public void onAnimationCancel(Animator animation) {
-                    dragBitmap = null;
-                }
-                @Override public void onAnimationStart(Animator animation) {}
-                @Override public void onAnimationRepeat(Animator animation) {}
-            });
-            dragAnimator.start();
-            return true;
-        }
         return listScroller.onTouchEvent(ev) || super.onTouchEvent(ev);
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            int x = (int) ev.getX();
-            int y = (int) ev.getY();
-            if (x >= 64) {
-                return false;
-            }
-            View view = getChildAt(pointToPosition(x, y) - getFirstVisiblePosition());
-            view.setDrawingCacheEnabled(true);
-            dragBitmap = Bitmap.createBitmap(view.getDrawingCache());
-            view.setDrawingCacheEnabled(false);
-            originalX = dragX = view.getLeft();
-            originalY = dragY = view.getTop();
-            dragXOffset = ev.getX() - dragX;
-            dragYOffset = ev.getY() - dragY;
-        }
         return true;
     }
 
@@ -159,6 +93,7 @@ public class APListView extends ListView {
                 return;
             }
             headerForSection.measure(0, 0);
+            headerView.setHeaderSize(windowSize.x, headerForSection.getMeasuredHeight());
             headerView.setHeader(headerForSection, section);
         } else if (headerView.getPosition() > section){
             // clear header
@@ -175,5 +110,4 @@ public class APListView extends ListView {
             }
         }
     }
-
 }
