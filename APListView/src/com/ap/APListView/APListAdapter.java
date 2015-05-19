@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
@@ -68,25 +69,28 @@ public class APListAdapter<E> extends BaseAdapter implements SectionIndexer {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_1, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.listview_item, parent, false);
         }
         APItem apItem = getItem(position);
-        TextView textView = (TextView) convertView.findViewById(android.R.id.text1);
+        TextView textView = (TextView) convertView.findViewById(R.id.text);
+        ImageView drag = (ImageView) convertView.findViewById(R.id.drag_icon);
         textView.setText(apItem.toString());
         if (apItem.isHeader()) {
-            textView.setBackgroundResource(android.R.color.darker_gray);
+            convertView.setBackgroundResource(android.R.color.darker_gray);
             textView.setTextColor(context.getResources().getColor(android.R.color.black));
             textView.setTextSize(20);
             textView.setTypeface(null, Typeface.BOLD);
             int section = getSectionForPosition(position);
             convertView.setTag(section);
+            drag.setVisibility(View.GONE);
             headerMap.put(section, convertView);
         } else {
-            textView.setBackgroundResource(android.R.color.black);
+            convertView.setBackgroundResource(android.R.color.black);
             textView.setTextColor(context.getResources().getColor(android.R.color.white));
             textView.setTextSize(14);
             textView.setTypeface(null, Typeface.NORMAL);
             convertView.setTag(-1);
+            drag.setVisibility(View.VISIBLE);
         }
         return convertView;
     }

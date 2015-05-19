@@ -2,9 +2,6 @@ package com.ap.APListView;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 
 /**
@@ -14,7 +11,6 @@ public class APListHeaderView {
 
     private Bitmap headerBitmap;
     private int position;
-    private int width;
     private int height;
     private int offset;
 
@@ -24,26 +20,16 @@ public class APListHeaderView {
     }
 
     public void setHeader(View headerView, int position) {
-        if (width == 0 || height == 0) {
-            return;
-        }
         this.position = position;
-        headerBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(headerBitmap);
-        Drawable bgDrawable = headerView.getBackground();
-        if (bgDrawable!=null) {
-            bgDrawable.draw(canvas);
-        } else {
-            canvas.drawColor(Color.WHITE);
-        }
-        headerView.draw(canvas);
+        headerView.setDrawingCacheEnabled(true);
+        headerBitmap = Bitmap.createBitmap(headerView.getDrawingCache());
+        headerView.setDrawingCacheEnabled(false);
         offset = 0;
+        if (headerBitmap != null) {
+            height = headerBitmap.getHeight();
+        }
     }
 
-    public void setHeaderSize(int width, int height) {
-        this.width = width;
-        this.height = height;
-    }
     public void clearHeader() {
         headerBitmap = null;
         offset = 0;
@@ -65,10 +51,6 @@ public class APListHeaderView {
 
     public void setHeight(int height) {
         this.height = height;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
     }
 
     public int getHeight() {
