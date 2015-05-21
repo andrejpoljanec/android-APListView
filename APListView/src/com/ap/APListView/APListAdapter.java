@@ -28,6 +28,9 @@ public class APListAdapter<E> extends BaseAdapter implements SectionIndexer {
     private List<APItem> itemList;
     private Map<Integer, View> headerMap;
 
+    private int hiddenPosition = -1;
+    private int placeholderHeight;
+
     public APListAdapter(Context context, List<E> objectList) {
         this.context = context;
         initializeHeaderedList(objectList);
@@ -53,7 +56,7 @@ public class APListAdapter<E> extends BaseAdapter implements SectionIndexer {
 
     @Override
     public int getCount() {
-        return itemList.size();
+        return itemList.size() * 2;
     }
 
     @Override
@@ -63,15 +66,23 @@ public class APListAdapter<E> extends BaseAdapter implements SectionIndexer {
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return position / 2;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
+        if (position % 2 == 1 || position == hiddenPosition) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.listview_emptyview, parent, false);
+            convertView.setTag("placeholder");
+            if (position == hiddenPosition) {
+                convertView.setLayoutParams(new ViewGroup.LayoutParams(convertView.getLayoutParams().width, placeholderHeight));
+            }
+            return convertView;
+        }
+        if (convertView == null || convertView.getTag().equals("placeholder")) {
             convertView = LayoutInflater.from(context).inflate(R.layout.listview_item, parent, false);
         }
-        APItem apItem = getItem(position);
+        APItem apItem = getItem(position / 2);
         TextView textView = (TextView) convertView.findViewById(R.id.text);
         ImageView drag = (ImageView) convertView.findViewById(R.id.drag_icon);
         textView.setText(apItem.toString());
@@ -108,7 +119,7 @@ public class APListAdapter<E> extends BaseAdapter implements SectionIndexer {
     public int getPositionForSection(int sectionIndex) {
         for (APItem item : itemList) {
             if (item.isHeader() && item.toString().toUpperCase().charAt(0) - CHAR_A == sectionIndex) {
-                return itemList.indexOf(item);
+                return itemList.indexOf(item) * 2;
             }
         }
         return 0;
@@ -116,7 +127,7 @@ public class APListAdapter<E> extends BaseAdapter implements SectionIndexer {
 
     @Override
     public int getSectionForPosition(int position) {
-        return getItem(position).toString().charAt(0) - CHAR_A;
+        return getItem(position / 2).toString().charAt(0) - CHAR_A;
     }
 
     public View getHeaderForSection(int section) {
@@ -126,6 +137,20 @@ public class APListAdapter<E> extends BaseAdapter implements SectionIndexer {
         } else {
             return null;
         }
+    }
+
+    public void showPosition(int position) {
+        hiddenPosition = -1;
+        notifyDataSetChanged();
+    }
+
+    public void hidePosition(int position) {
+        hiddenPosition = position;
+        notifyDataSetChanged();
+    }
+
+    public void setPlaceholderHeight(int placeholderHeight) {
+        this.placeholderHeight = placeholderHeight;
     }
 
     private abstract class APItem {

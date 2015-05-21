@@ -6,10 +6,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -34,6 +36,14 @@ public class APListView extends ListView {
     private float dropY;
     private Bitmap dragBitmap;
     private ValueAnimator dragAnimator;
+    private View dragOriginalView;
+    private int dragPosition;
+    private int dragOriginalPosition;
+    private View dragExpandedView;
+    private int dragViewHeight;
+    private Runnable dragScrollRunnable;
+    private Handler dragScrollHandler;
+    private int dragScrollAmount;
 
     public APListView(Context context) {
         super(context);
@@ -62,6 +72,17 @@ public class APListView extends ListView {
         WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         windowSize = new Point();
         windowManager.getDefaultDisplay().getSize(windowSize);
+
+        dragScrollRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (dragScrollAmount > 0) {
+                    scrollListBy(dragScrollAmount);
+                    dragScrollHandler.postDelayed(this, 1000);
+                }
+            }
+        };
+        dragScrollHandler = new Handler();
     }
 
     @Override
@@ -74,16 +95,60 @@ public class APListView extends ListView {
         listScroller.draw(canvas);
     }
 
+    private void collapseDragPlaceholder() {
+        if (dragExpandedView != null) {
+            dragExpandedView.setLayoutParams(new LayoutParams(dragExpandedView.getLayoutParams().width, 0));
+            dragExpandedView.requestLayout();
+        }
+    }
+
+    private void expandDragPlaceholder() {
+        if (dragExpandedView != null) {
+            dragExpandedView.setLayoutParams(new LayoutParams(dragExpandedView.getLayoutParams().width, dragViewHeight));
+            dragExpandedView.requestLayout();
+        }
+    }
+
+    private void hideDragOriginal() {
+        listAdapter.hidePosition(dragOriginalPosition);
+    }
+
+    private void showDragOriginal() {
+        listAdapter.showPosition(dragOriginalPosition);
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         if (dragBitmap != null && ev.getAction() == MotionEvent.ACTION_MOVE) {
-            dragX = ev.getX() - dragXOffset;
-            dragY = ev.getY() - dragYOffset;
+            int x = (int) ev.getX();
+            int y = (int) ev.getY();
+            dragX = x - dragXOffset;
+            dragY = y - dragYOffset;
             invalidate();
+            int position = pointToPosition(x, y) - getFirstVisiblePosition();
+            if (position % 2 == 0) {
+                position--;
+            }
+            if (Math.abs(dragOriginalPosition - position) <= 1) {
+                position = dragOriginalPosition;
+            }
+            if (position != dragPosition && position > 0) {
+                dragPosition = position;
+                collapseDragPlaceholder();
+                dragExpandedView = getChildAt(position);
+                expandDragPlaceholder();
+            }
+//            if (y > getHeight() / 10 * 8) {
+//                dragScrollAmount = (y - getHeight() / 10 * 8) / 10;
+//                dragScrollHandler.post(dragScrollRunnable);
+//            } else {
+//                dragScrollAmount = 0;
+//            }
             return true;
         } else if (dragBitmap != null && ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_CANCEL) {
             dropX = ev.getX() - dragXOffset;
             dropY = ev.getY() - dragYOffset;
+            collapseDragPlaceholder();
             dragAnimator = ValueAnimator.ofFloat(0, 1);
             dragAnimator.setDuration(200);
             dragAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -99,13 +164,21 @@ public class APListView extends ListView {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     dragBitmap = null;
+                    showDragOriginal();
                 }
+
                 @Override
                 public void onAnimationCancel(Animator animation) {
                     dragBitmap = null;
                 }
-                @Override public void onAnimationStart(Animator animation) {}
-                @Override public void onAnimationRepeat(Animator animation) {}
+
+                @Override
+                public void onAnimationStart(Animator animation) {
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+                }
             });
             dragAnimator.start();
             return true;
@@ -121,14 +194,25 @@ public class APListView extends ListView {
             if (x >= 64) {
                 return false;
             }
-            View view = getChildAt(pointToPosition(x, y) - getFirstVisiblePosition());
-            view.setDrawingCacheEnabled(true);
-            dragBitmap = Bitmap.createBitmap(view.getDrawingCache());
-            view.setDrawingCacheEnabled(false);
-            originalX = dragX = view.getLeft();
-            originalY = dragY = view.getTop();
+            dragOriginalPosition = pointToPosition(x, y) - getFirstVisiblePosition();
+            dragOriginalView = getChildAt(dragOriginalPosition);
+            if (dragOriginalView == null) {
+                return false;
+            }
+            dragViewHeight = dragOriginalView.getHeight();
+            listAdapter.setPlaceholderHeight(dragViewHeight);
+            dragOriginalView.setDrawingCacheEnabled(true);
+            dragBitmap = Bitmap.createBitmap(dragOriginalView.getDrawingCache());
+            dragOriginalView.setDrawingCacheEnabled(false);
+            originalX = dragX = dragOriginalView.getLeft();
+            originalY = dragY = dragOriginalView.getTop();
             dragXOffset = ev.getX() - dragX;
             dragYOffset = ev.getY() - dragY;
+            hideDragOriginal();
+            dragPosition = dragOriginalPosition + 1;
+            dragExpandedView = getChildAt(dragPosition);
+            expandDragPlaceholder();
+            dragScrollAmount = 0;
         }
         return true;
     }
