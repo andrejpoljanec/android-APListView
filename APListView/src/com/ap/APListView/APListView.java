@@ -9,10 +9,9 @@ import android.graphics.Point;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.view.*;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -30,20 +29,13 @@ public class APListView extends ListView {
     private float dragY;
     private float dragXOffset;
     private float dragYOffset;
-    private float originalX;
-    private float originalY;
-    private float dropX;
-    private float dropY;
     private Bitmap dragBitmap;
     private ValueAnimator dragAnimator;
-    private View dragOriginalView;
     private int dragPosition;
     private int dragOriginalPosition;
     private View dragExpandedView;
     private int dragViewHeight;
-    private Runnable dragScrollRunnable;
-    private Handler dragScrollHandler;
-    private int dragScrollAmount;
+    private VelocityTracker dragVelocity;
 
     public APListView(Context context) {
         super(context);
@@ -73,16 +65,6 @@ public class APListView extends ListView {
         windowSize = new Point();
         windowManager.getDefaultDisplay().getSize(windowSize);
 
-        dragScrollRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if (dragScrollAmount > 0) {
-                    scrollListBy(dragScrollAmount);
-                    dragScrollHandler.postDelayed(this, 1000);
-                }
-            }
-        };
-        dragScrollHandler = new Handler();
     }
 
     @Override
@@ -97,15 +79,39 @@ public class APListView extends ListView {
 
     private void collapseDragPlaceholder() {
         if (dragExpandedView != null) {
-            dragExpandedView.setLayoutParams(new LayoutParams(dragExpandedView.getLayoutParams().width, 0));
-            dragExpandedView.requestLayout();
+            View animatedView = dragExpandedView;
+            Animation animation = new Animation() {
+                @Override
+                protected void applyTransformation(float interpolatedTime, Transformation t) {
+                    animatedView.getLayoutParams().height = (int)(dragViewHeight * (1 - interpolatedTime));
+                    animatedView.requestLayout();
+                }
+                @Override
+                public boolean willChangeBounds() {
+                    return true;
+                }
+            };
+            animation.setDuration(100);
+            animatedView.startAnimation(animation);
         }
     }
 
     private void expandDragPlaceholder() {
         if (dragExpandedView != null) {
-            dragExpandedView.setLayoutParams(new LayoutParams(dragExpandedView.getLayoutParams().width, dragViewHeight));
-            dragExpandedView.requestLayout();
+            View animatedView = dragExpandedView;
+            Animation animation = new Animation() {
+                @Override
+                protected void applyTransformation(float interpolatedTime, Transformation t) {
+                    animatedView.getLayoutParams().height = (int)(dragViewHeight * interpolatedTime);
+                    animatedView.requestLayout();
+                }
+                @Override
+                public boolean willChangeBounds() {
+                    return true;
+                }
+            };
+            animation.setDuration(100);
+            animatedView.startAnimation(animation);
         }
     }
 
@@ -120,82 +126,127 @@ public class APListView extends ListView {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         if (dragBitmap != null && ev.getAction() == MotionEvent.ACTION_MOVE) {
+            dragVelocity.addMovement(ev);
             int x = (int) ev.getX();
             int y = (int) ev.getY();
             dragX = x - dragXOffset;
             dragY = y - dragYOffset;
             invalidate();
-            int position = pointToPosition(x, y) - getFirstVisiblePosition();
+            int position = pointToPosition(x, y);
             if (position % 2 == 0) {
                 position--;
             }
             if (Math.abs(dragOriginalPosition - position) <= 1) {
                 position = dragOriginalPosition;
             }
+            position -= getFirstVisiblePosition();
             if (position != dragPosition && position > 0) {
-                dragPosition = position;
                 collapseDragPlaceholder();
-                dragExpandedView = getChildAt(position);
+                dragPosition = position;
+                dragExpandedView = getChildAt(dragPosition);
                 expandDragPlaceholder();
             }
-//            if (y > getHeight() / 10 * 8) {
-//                dragScrollAmount = (y - getHeight() / 10 * 8) / 10;
-//                dragScrollHandler.post(dragScrollRunnable);
-//            } else {
-//                dragScrollAmount = 0;
-//            }
+            int scrollAmount = 0;
+            if (y > getHeight() * 3 / 4) {
+                // scroll down
+                if (getLastVisiblePosition() < getCount() - 1) {
+                    scrollAmount = (y - getHeight() * 3 / 4);
+                } else {
+                    scrollAmount = 0;
+                }
+            } else if (y < getHeight() / 4) {
+                // scroll up
+                if (getFirstVisiblePosition() > 0) {
+                    scrollAmount = (y - getHeight() / 4);
+                } else {
+                    scrollAmount = 0;
+                }
+            }
+            if (scrollAmount != 0) {
+                smoothScrollBy(scrollAmount, 20);
+            }
             return true;
         } else if (dragBitmap != null && ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_CANCEL) {
-            dropX = ev.getX() - dragXOffset;
-            dropY = ev.getY() - dragYOffset;
+
+            dragVelocity.computeCurrentVelocity(10);
+            dragX = ev.getX() - dragXOffset;
+            dragY = ev.getY() - dragYOffset;
             collapseDragPlaceholder();
-            dragAnimator = ValueAnimator.ofFloat(0, 1);
-            dragAnimator.setDuration(200);
-            dragAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    float value = (float) animation.getAnimatedValue();
-                    dragX = dropX + value * (originalX - dropX);
-                    dragY = dropY + value * (originalY - dropY);
-                    invalidate();
-                }
-            });
-            dragAnimator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    dragBitmap = null;
-                    showDragOriginal();
-                }
 
-                @Override
-                public void onAnimationCancel(Animator animation) {
-                    dragBitmap = null;
-                }
+            if (Math.abs(dragPosition + getFirstVisiblePosition() - dragOriginalPosition) <= 1) {
+                // No change
+                View dragOriginalView = getChildAt(dragOriginalPosition - getFirstVisiblePosition());
+                animateDragTo(dragOriginalView.getX(), dragOriginalView.getY());
+            } else if (Math.abs(dragVelocity.getXVelocity()) > 20 && (dragPosition < getFirstVisiblePosition() || dragPosition > getLastVisiblePosition())) {
+                // Cancel it out
+                animateDragTo(getWidth(), dragY);
+            } else if (Math.abs(dragVelocity.getXVelocity()) > 20) {
+                // Cancel it to the original position
+                View dragOriginalView = getChildAt(dragOriginalPosition - getFirstVisiblePosition());
+                animateDragTo(dragOriginalView.getX(), dragOriginalView.getY());
+            } else {
+                // Reorder
+                View dropView = getChildAt(dragPosition);
+                animateDragTo(dropView.getX(), dropView.getY());
+                // TODO: Reorder it!
+            }
 
-                @Override
-                public void onAnimationStart(Animator animation) {
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-                }
-            });
-            dragAnimator.start();
             return true;
         }
         return listScroller.onTouchEvent(ev) || super.onTouchEvent(ev);
     }
 
+    private void animateDragTo(float toX, float toY) {
+        dragAnimator = ValueAnimator.ofFloat(0, 1);
+        dragAnimator.setDuration(200);
+        dragAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float) animation.getAnimatedValue();
+                dragX = dragX + value * (toX - dragX);
+                dragY = dragY + value * (toY - dragY);
+                invalidate();
+            }
+        });
+        dragAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                dragBitmap = null;
+                showDragOriginal();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                dragBitmap = null;
+            }
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
+        });
+        dragAnimator.start();
+    }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            if (dragVelocity == null) {
+                dragVelocity = VelocityTracker.obtain();
+            } else {
+                dragVelocity.clear();
+            }
+            dragVelocity.addMovement(ev);
             int x = (int) ev.getX();
             int y = (int) ev.getY();
             if (x >= 64) {
                 return false;
             }
-            dragOriginalPosition = pointToPosition(x, y) - getFirstVisiblePosition();
-            dragOriginalView = getChildAt(dragOriginalPosition);
+            dragOriginalPosition = pointToPosition(x, y);
+            View dragOriginalView = getChildAt(dragOriginalPosition - getFirstVisiblePosition());
             if (dragOriginalView == null) {
                 return false;
             }
@@ -204,15 +255,14 @@ public class APListView extends ListView {
             dragOriginalView.setDrawingCacheEnabled(true);
             dragBitmap = Bitmap.createBitmap(dragOriginalView.getDrawingCache());
             dragOriginalView.setDrawingCacheEnabled(false);
-            originalX = dragX = dragOriginalView.getLeft();
-            originalY = dragY = dragOriginalView.getTop();
+            dragX = dragOriginalView.getX();
+            dragY = dragOriginalView.getY();
             dragXOffset = ev.getX() - dragX;
             dragYOffset = ev.getY() - dragY;
             hideDragOriginal();
-            dragPosition = dragOriginalPosition + 1;
+            dragPosition = dragOriginalPosition - getFirstVisiblePosition() + 1;
             dragExpandedView = getChildAt(dragPosition);
             expandDragPlaceholder();
-            dragScrollAmount = 0;
         }
         return true;
     }
