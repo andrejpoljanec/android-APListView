@@ -43,16 +43,18 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="25" column="9" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="APListAdapter.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="APListAdapter.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../APListView/src/com/ap/APListView/APListAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="146" column="16" selection-start-line="146" selection-start-column="16" selection-end-line="146" selection-end-column="16" />
+            <state vertical-scroll-proportion="0.1722973">
+              <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -63,8 +65,8 @@
       <file leaf-file-name="listview_emptyview.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../APListView/res/layout/listview_emptyview.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="4" column="37" selection-start-line="4" selection-start-column="37" selection-end-line="4" selection-end-column="37" />
+            <state vertical-scroll-proportion="-1.1724138">
+              <caret line="2" column="54" selection-start-line="2" selection-start-column="54" selection-end-line="2" selection-end-column="54" />
               <folding />
             </state>
           </provider>
@@ -78,28 +80,32 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#2746#2747#0" expanded="false" />
+                <element signature="e#2830#2831#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="APListView.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="APListView.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../APListView/src/com/ap/APListView/APListView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8902027">
-              <caret line="113" column="24" selection-start-line="113" selection-start-column="24" selection-end-line="113" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="155" column="44" selection-start-line="155" selection-start-column="44" selection-end-line="155" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2844#2845#0" expanded="true" />
-                <element signature="e#2895#2896#0" expanded="true" />
-                <element signature="e#3573#3574#0" expanded="true" />
-                <element signature="e#3624#3625#0" expanded="true" />
-                <element signature="e#3786#3787#0" expanded="true" />
-                <element signature="e#3848#3849#0" expanded="true" />
-                <element signature="e#3887#3888#0" expanded="true" />
-                <element signature="e#3949#3950#0" expanded="true" />
-                <element signature="e#7987#7988#0" expanded="true" />
-                <element signature="e#8036#8037#0" expanded="true" />
+                <element signature="e#2933#2934#0" expanded="true" />
+                <element signature="e#2992#2993#0" expanded="true" />
+                <element signature="e#3953#3954#0" expanded="true" />
+                <element signature="e#4012#4013#0" expanded="true" />
+                <element signature="e#4351#4352#0" expanded="true" />
+                <element signature="e#4413#4414#0" expanded="true" />
+                <element signature="e#4452#4453#0" expanded="true" />
+                <element signature="e#4514#4515#0" expanded="true" />
+                <element signature="e#8344#8345#0" expanded="true" />
+                <element signature="e#8393#8394#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -118,8 +124,21 @@
       <file leaf-file-name="listview_item.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../APListView/res/layout/listview_item.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="-9.965517">
               <caret line="17" column="52" selection-start-line="17" selection-start-column="52" selection-end-line="17" selection-end-column="52" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../APListView/res/layout/main.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -177,10 +196,10 @@
         <option value="$PROJECT_DIR$/../APListView/src/com/ap/APListView/APListScroller.java" />
         <option value="$PROJECT_DIR$/../APListView/res/layout/aplistview_item.xml" />
         <option value="$PROJECT_DIR$/../APListView/src/com/ap/APListView/APListHeaderView.java" />
-        <option value="$PROJECT_DIR$/../APListView/res/layout/listview_emptyview.xml" />
         <option value="$PROJECT_DIR$/../APListView/res/layout/listview_item.xml" />
         <option value="$PROJECT_DIR$/../APListView/src/com/ap/APListView/APListAdapter.java" />
         <option value="$PROJECT_DIR$/../APListView/src/com/ap/APListView/APListView.java" />
+        <option value="$PROJECT_DIR$/../APListView/res/layout/listview_emptyview.xml" />
       </list>
     </option>
   </component>
@@ -583,13 +602,15 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32972974" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32972974" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25479743" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -600,8 +621,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -617,7 +636,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="48" />
+      <option name="time" value="60" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -630,7 +649,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="25" column="9" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -659,7 +680,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2746#2747#0" expanded="false" />
+            <element signature="e#2830#2831#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -669,16 +694,16 @@
           <caret line="131" column="60" selection-start-line="131" selection-start-column="60" selection-end-line="131" selection-end-column="60" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2844#2845#0" expanded="true" />
-            <element signature="e#2895#2896#0" expanded="true" />
-            <element signature="e#3573#3574#0" expanded="true" />
-            <element signature="e#3624#3625#0" expanded="true" />
-            <element signature="e#3786#3787#0" expanded="true" />
-            <element signature="e#3848#3849#0" expanded="true" />
-            <element signature="e#3887#3888#0" expanded="true" />
-            <element signature="e#3949#3950#0" expanded="true" />
-            <element signature="e#7987#7988#0" expanded="true" />
-            <element signature="e#8036#8037#0" expanded="true" />
+            <element signature="e#2933#2934#0" expanded="true" />
+            <element signature="e#2992#2993#0" expanded="true" />
+            <element signature="e#3953#3954#0" expanded="true" />
+            <element signature="e#4012#4013#0" expanded="true" />
+            <element signature="e#4351#4352#0" expanded="true" />
+            <element signature="e#4413#4414#0" expanded="true" />
+            <element signature="e#4452#4453#0" expanded="true" />
+            <element signature="e#4514#4515#0" expanded="true" />
+            <element signature="e#8344#8345#0" expanded="true" />
+            <element signature="e#8393#8394#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -725,7 +750,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="25" column="9" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -754,7 +781,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2746#2747#0" expanded="false" />
+            <element signature="e#2830#2831#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -764,16 +795,16 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2844#2845#0" expanded="true" />
-            <element signature="e#2895#2896#0" expanded="true" />
-            <element signature="e#3573#3574#0" expanded="true" />
-            <element signature="e#3624#3625#0" expanded="true" />
-            <element signature="e#3786#3787#0" expanded="true" />
-            <element signature="e#3848#3849#0" expanded="true" />
-            <element signature="e#3887#3888#0" expanded="true" />
-            <element signature="e#3949#3950#0" expanded="true" />
-            <element signature="e#7987#7988#0" expanded="true" />
-            <element signature="e#8036#8037#0" expanded="true" />
+            <element signature="e#2933#2934#0" expanded="true" />
+            <element signature="e#2992#2993#0" expanded="true" />
+            <element signature="e#3953#3954#0" expanded="true" />
+            <element signature="e#4012#4013#0" expanded="true" />
+            <element signature="e#4351#4352#0" expanded="true" />
+            <element signature="e#4413#4414#0" expanded="true" />
+            <element signature="e#4452#4453#0" expanded="true" />
+            <element signature="e#4514#4515#0" expanded="true" />
+            <element signature="e#8344#8345#0" expanded="true" />
+            <element signature="e#8393#8394#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -820,7 +851,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="25" column="9" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -838,7 +871,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2746#2747#0" expanded="false" />
+            <element signature="e#2830#2831#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -848,16 +885,16 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2844#2845#0" expanded="true" />
-            <element signature="e#2895#2896#0" expanded="true" />
-            <element signature="e#3573#3574#0" expanded="true" />
-            <element signature="e#3624#3625#0" expanded="true" />
-            <element signature="e#3786#3787#0" expanded="true" />
-            <element signature="e#3848#3849#0" expanded="true" />
-            <element signature="e#3887#3888#0" expanded="true" />
-            <element signature="e#3949#3950#0" expanded="true" />
-            <element signature="e#7987#7988#0" expanded="true" />
-            <element signature="e#8036#8037#0" expanded="true" />
+            <element signature="e#2933#2934#0" expanded="true" />
+            <element signature="e#2992#2993#0" expanded="true" />
+            <element signature="e#3953#3954#0" expanded="true" />
+            <element signature="e#4012#4013#0" expanded="true" />
+            <element signature="e#4351#4352#0" expanded="true" />
+            <element signature="e#4413#4414#0" expanded="true" />
+            <element signature="e#4452#4453#0" expanded="true" />
+            <element signature="e#4514#4515#0" expanded="true" />
+            <element signature="e#8344#8345#0" expanded="true" />
+            <element signature="e#8393#8394#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -957,14 +994,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://C:/Program Files (x86)/Android/android-sdk/sources/android-21/android/view/View.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="19607" column="32" selection-start-line="19607" selection-start-column="32" selection-end-line="19607" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Program Files (x86)/Android/android-sdk/sources/android-21/android/widget/SectionIndexer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.18412162">
@@ -976,7 +1005,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2746#2747#0" expanded="false" />
+            <element signature="e#2830#2831#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -984,7 +1017,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="25" column="9" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -999,17 +1034,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../APListView/res/layout/listview_emptyview.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="37" selection-start-line="4" selection-start-column="37" selection-end-line="4" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://C:/Program Files (x86)/Android/android-sdk/sources/android-21/android/os/Trace.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33206832">
@@ -1017,31 +1041,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../APListView/res/layout/listview_item.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="52" selection-start-line="17" selection-start-column="52" selection-end-line="17" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://C:/Program Files (x86)/Android/android-sdk/sources/android-21/java/util/logging/Handler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3158784">
           <caret line="27" column="22" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../APListView/src/com/ap/APListView/APListAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="146" column="16" selection-start-line="146" selection-start-column="16" selection-end-line="146" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1061,22 +1064,73 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://C:/Program Files (x86)/Android/android-sdk/sources/android-21/android/view/View.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33206832">
+          <caret line="11429" column="0" selection-start-line="11429" selection-start-column="0" selection-end-line="11429" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../APListView/res/layout/listview_emptyview.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.1724138">
+          <caret line="2" column="54" selection-start-line="2" selection-start-column="54" selection-end-line="2" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../APListView/res/layout/main.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../APListView/res/layout/listview_item.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.965517">
+          <caret line="17" column="52" selection-start-line="17" selection-start-column="52" selection-end-line="17" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../APListView/src/com/ap/APListView/APListView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8902027">
-          <caret line="113" column="24" selection-start-line="113" selection-start-column="24" selection-end-line="113" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="155" column="44" selection-start-line="155" selection-start-column="44" selection-end-line="155" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2844#2845#0" expanded="true" />
-            <element signature="e#2895#2896#0" expanded="true" />
-            <element signature="e#3573#3574#0" expanded="true" />
-            <element signature="e#3624#3625#0" expanded="true" />
-            <element signature="e#3786#3787#0" expanded="true" />
-            <element signature="e#3848#3849#0" expanded="true" />
-            <element signature="e#3887#3888#0" expanded="true" />
-            <element signature="e#3949#3950#0" expanded="true" />
-            <element signature="e#7987#7988#0" expanded="true" />
-            <element signature="e#8036#8037#0" expanded="true" />
+            <element signature="e#2933#2934#0" expanded="true" />
+            <element signature="e#2992#2993#0" expanded="true" />
+            <element signature="e#3953#3954#0" expanded="true" />
+            <element signature="e#4012#4013#0" expanded="true" />
+            <element signature="e#4351#4352#0" expanded="true" />
+            <element signature="e#4413#4414#0" expanded="true" />
+            <element signature="e#4452#4453#0" expanded="true" />
+            <element signature="e#4514#4515#0" expanded="true" />
+            <element signature="e#8344#8345#0" expanded="true" />
+            <element signature="e#8393#8394#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../APListView/src/com/ap/APListView/APListAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.1722973">
+          <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -31,9 +31,8 @@ public class APListView extends ListView {
     private float dragYOffset;
     private Bitmap dragBitmap;
     private ValueAnimator dragAnimator;
-    private int dragPosition;
+    private int dragPosition = -1;
     private int dragOriginalPosition;
-    private View dragExpandedView;
     private int dragViewHeight;
     private VelocityTracker dragVelocity;
 
@@ -77,41 +76,53 @@ public class APListView extends ListView {
         listScroller.draw(canvas);
     }
 
-    private void collapseDragPlaceholder() {
-        if (dragExpandedView != null) {
-            View animatedView = dragExpandedView;
-            Animation animation = new Animation() {
-                @Override
-                protected void applyTransformation(float interpolatedTime, Transformation t) {
-                    animatedView.getLayoutParams().height = (int)(dragViewHeight * (1 - interpolatedTime));
-                    animatedView.requestLayout();
-                }
-                @Override
-                public boolean willChangeBounds() {
-                    return true;
-                }
-            };
-            animation.setDuration(100);
-            animatedView.startAnimation(animation);
+    private void collapseDragPlaceholder(boolean animated) {
+        if (dragPosition > -1) {
+            View dragExpandedView = getChildAt(dragPosition - getFirstVisiblePosition());
+            if (animated) {
+                Animation animation = new Animation() {
+                    @Override
+                    protected void applyTransformation(float interpolatedTime, Transformation t) {
+                        dragExpandedView.getLayoutParams().height = (int) (dragViewHeight * (1 - interpolatedTime));
+                        dragExpandedView.requestLayout();
+                    }
+
+                    @Override
+                    public boolean willChangeBounds() {
+                        return true;
+                    }
+                };
+                animation.setDuration(100);
+                dragExpandedView.startAnimation(animation);
+            } else {
+                dragExpandedView.getLayoutParams().height = 0;
+                dragExpandedView.requestLayout();
+            }
         }
     }
 
-    private void expandDragPlaceholder() {
-        if (dragExpandedView != null) {
-            View animatedView = dragExpandedView;
-            Animation animation = new Animation() {
-                @Override
-                protected void applyTransformation(float interpolatedTime, Transformation t) {
-                    animatedView.getLayoutParams().height = (int)(dragViewHeight * interpolatedTime);
-                    animatedView.requestLayout();
-                }
-                @Override
-                public boolean willChangeBounds() {
-                    return true;
-                }
-            };
-            animation.setDuration(100);
-            animatedView.startAnimation(animation);
+    private void expandDragPlaceholder(boolean animated) {
+        if (dragPosition > -1) {
+            View dragExpandedView = getChildAt(dragPosition - getFirstVisiblePosition());
+            if (animated) {
+                Animation animation = new Animation() {
+                    @Override
+                    protected void applyTransformation(float interpolatedTime, Transformation t) {
+                        dragExpandedView.getLayoutParams().height = (int) (dragViewHeight * interpolatedTime);
+                        dragExpandedView.requestLayout();
+                    }
+
+                    @Override
+                    public boolean willChangeBounds() {
+                        return true;
+                    }
+                };
+                animation.setDuration(100);
+                dragExpandedView.startAnimation(animation);
+            } else {
+                dragExpandedView.getLayoutParams().height = dragViewHeight;
+                dragExpandedView.requestLayout();
+            }
         }
     }
 
@@ -132,19 +143,17 @@ public class APListView extends ListView {
             dragX = x - dragXOffset;
             dragY = y - dragYOffset;
             invalidate();
-            int position = pointToPosition(x, y);
+            int position = pointToPosition(x, y - dragViewHeight / 2);
             if (position % 2 == 0) {
-                position--;
+                position++;
             }
             if (Math.abs(dragOriginalPosition - position) <= 1) {
                 position = dragOriginalPosition;
             }
-            position -= getFirstVisiblePosition();
             if (position != dragPosition && position > 0) {
-                collapseDragPlaceholder();
+                collapseDragPlaceholder(true);
                 dragPosition = position;
-                dragExpandedView = getChildAt(dragPosition);
-                expandDragPlaceholder();
+                expandDragPlaceholder(true);
             }
             int scrollAmount = 0;
             if (y > getHeight() * 3 / 4) {
@@ -156,11 +165,7 @@ public class APListView extends ListView {
                 }
             } else if (y < getHeight() / 4) {
                 // scroll up
-                if (getFirstVisiblePosition() > 0) {
-                    scrollAmount = (y - getHeight() / 4);
-                } else {
-                    scrollAmount = 0;
-                }
+                scrollAmount = (y - getHeight() / 4);
             }
             if (scrollAmount != 0) {
                 smoothScrollBy(scrollAmount, 20);
@@ -171,9 +176,8 @@ public class APListView extends ListView {
             dragVelocity.computeCurrentVelocity(10);
             dragX = ev.getX() - dragXOffset;
             dragY = ev.getY() - dragYOffset;
-            collapseDragPlaceholder();
 
-            if (Math.abs(dragPosition + getFirstVisiblePosition() - dragOriginalPosition) <= 1) {
+            if (Math.abs(dragPosition + dragOriginalPosition) <= 1) {
                 // No change
                 View dragOriginalView = getChildAt(dragOriginalPosition - getFirstVisiblePosition());
                 animateDragTo(dragOriginalView.getX(), dragOriginalView.getY());
@@ -190,6 +194,8 @@ public class APListView extends ListView {
                 animateDragTo(dropView.getX(), dropView.getY());
                 // TODO: Reorder it!
             }
+
+            dragPosition = -1;
 
             return true;
         }
@@ -212,6 +218,7 @@ public class APListView extends ListView {
             @Override
             public void onAnimationEnd(Animator animation) {
                 dragBitmap = null;
+                collapseDragPlaceholder(false);
                 showDragOriginal();
             }
 
@@ -245,8 +252,8 @@ public class APListView extends ListView {
             if (x >= 64) {
                 return false;
             }
-            dragOriginalPosition = pointToPosition(x, y);
-            View dragOriginalView = getChildAt(dragOriginalPosition - getFirstVisiblePosition());
+            dragPosition = dragOriginalPosition = pointToPosition(x, y);
+            View dragOriginalView = getChildAt(dragPosition - getFirstVisiblePosition());
             if (dragOriginalView == null) {
                 return false;
             }
@@ -260,9 +267,6 @@ public class APListView extends ListView {
             dragXOffset = ev.getX() - dragX;
             dragYOffset = ev.getY() - dragY;
             hideDragOriginal();
-            dragPosition = dragOriginalPosition - getFirstVisiblePosition() + 1;
-            dragExpandedView = getChildAt(dragPosition);
-            expandDragPlaceholder();
         }
         return true;
     }
